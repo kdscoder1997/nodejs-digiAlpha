@@ -1,3 +1,8 @@
+/*  *
+    *   Here error Handling is done using try catch method
+    *   delete, update methods are implemented by searching user by there object ID
+    *
+*/
 const User = require("../Models/User")
 const { BAD_REQUEST_ERROR, NOT_FOUND_ERROR } = require("../utils/errorHandler")
 const { StatusCodes } = require("http-status-codes")

@@ -1,0 +1,262 @@
+API Documentation
+This document describes the API endpoints for managing users in the Node.js + MongoDB application.
+
+Base URL- http://3.110.196.190/api
+
+
+Endpoints-
+
+1. Register a User
+
+Endpoint: /api/v1/user/register
+Method: POST
+Description: Registers a new user. Ensures the email does not already exist.
+
+Request - 
+Request Body:
+{
+    "firstName":"testFirst",
+    "lastName":"TestLast",
+    "email":"kds1@gmail.com",
+    "phoneNo":"1234567890"    
+}
+
+Response-
+Status Code: 200 OK
+Response Body:
+json
+{
+    "user": {
+        "firstName": "testFirst",
+        "lastName": "TestLast",
+        "email": "kds1@gmail.com",
+        "phoneNo": "1234567890",
+        "_id": "66d6d4122b7c4b7e82e24e79",
+        "createdAt": "2024-09-03T09:17:06.418Z",
+        "updatedAt": "2024-09-03T09:17:06.418Z",
+        "__v": 0
+    },
+    "message": "User created"
+}
+
+Error Responses
+Status Code: 400 Bad Request
+
+Response Body:
+json
+{
+    "message": "Email already present!",
+    "stack": "BadRequestError: Email already present!\n    at register (/home/ubuntu/actions-runner-backend-digiAlpha/_work/nodejs-digiAlpha/nodejs-digiAlpha/controllers/user.js:13:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+}
+
+and validation errors
+
+Status Code: 500 Internal Server Error
+
+Response Body:
+json
+
+{
+  "message": "Internal Server Error",
+  "stack": "stack trace (development mode only)"
+}
+
+
+------------------------------------------------------------------------------------------------------------
+2. Get User by ID-
+
+Endpoint: /api/v1/user/getUser/:id
+Method: GET
+Description: Retrieves a user by their unique ID.
+
+Request
+URL Parameters:
+id: User's unique MongoDB identifier.
+Response
+Status Code: 200 OK
+Response Body:
+json
+
+{
+    "message": "user found.",
+    "user": {
+        "_id": "66d6d8642b7c4b7e82e24e7f",
+        "firstName": "testFirst",
+        "lastName": "TestLast",
+        "email": "kds2@gmail.com",
+        "phoneNo": "1234567890",
+        "createdAt": "2024-09-03T09:35:32.005Z",
+        "updatedAt": "2024-09-03T09:35:32.005Z",
+        "__v": 0
+    }
+}
+
+Error Responses
+Status Code: 404 Not Found
+
+Response Body:
+json
+
+{
+  "message": "User not found"
+}
+Status Code: 500 Internal Server Error
+
+Response Body:
+json
+{
+    "message": "Invalid MongoDB ObjectId",
+    "err": {
+        "statusCode": 400,
+        "name": "BadRequestError"
+    },
+    "stack": "BadRequestError: Invalid MongoDB ObjectId\n    at handleValidationErrors (/home/ubuntu/actions-runner-backend-digiAlpha/_work/nodejs-digiAlpha/nodejs-digiAlpha/utils/validation.js:65:19)\n    at Layer.handle [as handle_request] (/home/ubuntu/actions-runner-backend-digiAlpha/_work/nodejs-digiAlpha/nodejs-digiAlpha/node_modules/express/lib/router/layer.js:95:5)\n    at next (/home/ubuntu/actions-runner-backend-digiAlpha/_work/nodejs-digiAlpha/nodejs-digiAlpha/node_modules/express/lib/router/route.js:149:13)\n    at middleware (/home/ubuntu/actions-runner-backend-digiAlpha/_work/nodejs-digiAlpha/nodejs-digiAlpha/node_modules/express-validator/lib/middlewares/check.js:16:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"
+}
+
+---------------------------------------------------------------------------------------------------
+3. Update User
+Endpoint: /api/v1/user/update/:id
+Method: PATCH
+Description: Updates a user’s details by their unique MongoDB ID.
+
+Request
+URL Parameters:
+id: User's unique identifier.
+Content-Type: application/json
+Request Body:
+json
+
+{
+    "firstName":"Test1",
+    "lastName":"TestLast",
+    "email":"eds@fsa.cd",
+    "phoneNo":"1234567890"
+
+}
+Response
+Status Code: 200 OK
+Response Body:
+json
+
+{
+    "user": {
+        "_id": "66d6d3ba2b7c4b7e82e24e72",
+        "firstName": "Test1",
+        "lastName": "TestLast",
+        "email": "eds@fsa.cd",
+        "phoneNo": "1234567890",
+        "createdAt": "2024-09-03T09:15:38.258Z",
+        "updatedAt": "2024-09-03T09:15:55.350Z",
+        "__v": 0
+    },
+    "message": "User updated"
+}
+Error Responses
+Status Code: 404 Not Found
+
+Response Body:
+json
+
+{
+  "message": "User not found"
+}
+Status Code: 500 Internal Server Error
+
+Response Body:
+json
+
+{
+  "message": "Internal Server Error",
+  "stack": "stack trace (development mode only)"
+}
+
+---------------------------------------------------------------------------------
+
+4. Delete User-
+
+Endpoint: /api/v1/user/delete/:id
+Method: DELETE
+Description: Deletes a user by their unique MongoDB ID.
+
+Request
+URL Parameters:
+id: User's unique identifier.
+
+Response
+Status Code: 200 OK
+
+Response Body:
+json
+
+{
+  "message": "User deleted successfully"
+}
+
+
+Error Responses
+Status Code: 404 Not Found
+
+Response Body:
+json
+
+{
+  "message": "User not found"
+}
+Status Code: 500 Internal Server Error
+
+Response Body:
+json
+
+{
+  "message": "Internal Server Error",
+  "stack": "stack trace (development mode only)"
+}
+
+
+------------------------------------------------------------------------------
+
+5. Get Users by Filter
+Endpoint: /api/users
+Method: GET
+Description: Retrieves users based on optional query parameters for filtering.
+
+Request
+Query Parameters:
+firstName (optional): Filter users by first name.
+lastName (optional): Filter users by last name.
+email (optional): Filter users by email.
+phoneNo (optional): Filter users by phone number.
+
+Response
+Status Code: 200 OK
+
+Response Body:
+json
+
+{
+    "users": [
+        {
+            "_id": "66d6d4122b7c4b7e82e24e79",
+            "firstName": "testFirst",
+            "lastName": "TestLast",
+            "email": "kds1@gmail.com",
+            "phoneNo": "1234567890",
+            "createdAt": "2024-09-03T09:17:06.418Z",
+            "updatedAt": "2024-09-03T09:17:06.418Z",
+            "__v": 0
+        }
+    ],
+    "message": "Users."
+}
+
+
+Error Responses
+Status Code: 500 Internal Server Error
+
+Response Body:
+json
+
+{
+  "message": "Internal Server Error",
+  "stack": "stack trace (development mode only)"
+}

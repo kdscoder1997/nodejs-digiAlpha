@@ -3,6 +3,7 @@ const { body, validationResult, param, query } = require('express-validator');
 const { BAD_REQUEST_ERROR, NOT_FOUND_ERROR } = require("../utils/errorHandler")
 const mongoose = require("mongoose")
 
+// * Validation for register request body
 const reqValidation = [
     body('firstName')
         .trim()
@@ -23,6 +24,8 @@ const reqValidation = [
         .isNumeric().withMessage('Phone number must be numeric.')
 ];
 
+// * Validation for valid mongo ID
+
 const validateId = (paramName) => [
     param(paramName)
         .custom((value) => {
@@ -33,6 +36,9 @@ const validateId = (paramName) => [
             return true;
         })
 ];
+
+
+// * Validation for getting user via filters
 
 const userFilterValidation = [
     query('firstName')
