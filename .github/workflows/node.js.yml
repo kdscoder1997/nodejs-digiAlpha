@@ -28,3 +28,5 @@ jobs:
     - run: |
          touch .env
          echo "${{secrets.DEPLOY_SECRET_FILE_DIGIALPA}}" > .env
+
+    - run: pm2 restart test 
